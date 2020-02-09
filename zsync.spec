@@ -2,14 +2,17 @@
 
 Name:           zsync
 Version:        0.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An rsync-like download optimizer tool
 
 License:        Artistic 2.0
 URL:            http://zsync.moria.org.uk
-Source0:        https://github.com/cph6/zsync/archive/%{commit}.tar.gz
+Source0:        https://github.com/cph6/zsync/archive/%{commit}/zsync-%{commit}.tar.gz
 
-BuildRequires:  make, gcc, autoconf
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  make
+BuildRequires:  gcc
 
 Provides:       bundled(zlib) = 1.2.1.1
 
@@ -36,6 +39,7 @@ making it ideal for large scale file distribution.
 
 %build
 pushd c
+    autoreconf -fiv
     %configure
     %make_build
 popd
@@ -50,12 +54,15 @@ popd
 rm -rf %{buildroot}%{_docdir}/zsync/COPYING
 
 %files
-%license COPYING
-%doc README NEWS
+%license c/COPYING
+%doc c/README c/NEWS
 %{_bindir}/zsync*
 %{_mandir}/man1/zsync*.1.*
 
 
 %changelog
+* Sun Feb 09 2020 ElXreno <elxreno@gmail.com> - 0.6.2-2
+- Bump release version
+
 * Wed Jan  4 2017 Neal Gompa <ngompa13@gmail.com>
 - Initial packaging
